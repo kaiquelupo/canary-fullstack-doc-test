@@ -57,7 +57,7 @@ docker compose up -d
 ```
 ---
 
-### Frontend
+### Backend
 Access the backend at `http://localhost:4000`
 If you need to install a dependency in the backend or run a command, you can access the container with the following command:
 ```shell
@@ -86,3 +86,57 @@ docker ps
 
 ### Useful Links:
 - https://www.sec.gov/edgar/search/#
+
+# Implemenation
+
+## Backend Implementation
+
+For the detailed description of the backend implementation, please refer to the [Backend README](./back/README.md).
+
+## Frontend Implemenation
+
+For the detailed description of the backend implementation, please refer to the [Frontend README](./front/README.md).
+
+## Monorepo
+
+### Linting and Formatting in the Project
+
+This project uses **linting** and **code formatting** tools for both the backend and frontend to ensure consistent code quality and style across the entire codebase. These tools are integrated into the development workflow using **ESLint** and **Prettier**, along with **Husky** for pre-commit hooks.
+
+#### **Advantages of Linting**
+1. **Error Detection**:
+   - Identifies syntax errors, unused variables, and other common mistakes before runtime.
+   - Reduces the likelihood of bugs in production.
+
+2. **Enforces Coding Standards**:
+   - Ensures all developers follow the same coding conventions, making the codebase consistent and easier to read.
+
+3. **Improves Code Quality**:
+   - Encourages best practices by highlighting suboptimal patterns or anti-patterns.
+
+4. **Early Feedback**:
+   - Provides immediate feedback during development, saving time during code reviews.
+
+#### **Advantages of Code Formatting**
+1. **Consistency**:
+   - Ensures that all code looks the same, regardless of who wrote it.
+   - Makes the code easier to read and maintain.
+
+2. **Focus on Logic**:
+   - Developers can focus on writing logic instead of worrying about formatting rules.
+
+3. **Reduces Merge Conflicts**:
+   - Consistent formatting minimizes differences in code, reducing merge conflicts in version control.
+
+4. **Automated Formatting**:
+   - Prettier automatically formats code, saving time and effort.
+
+#### **Integration with Husky**
+The project uses **Husky** to enforce linting and formatting checks before every commit. This ensures that only clean, well-formatted code is committed to the repository. How it works:
+
+1. **Pre-commit Hook**:
+   - Husky runs `eslint` and `prettier` on staged files before a commit is made.
+   - If any issues are found, the commit is blocked until the issues are resolved.
+
+2. **Lint-staged**:
+   - Only the files that are staged for commit are checked, making the process fast and efficient.
