@@ -1,0 +1,19 @@
+{
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1"
+  },
+  "lint-staged": {
+    "front/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "npm run lint --prefix front",
+      "npm run format --prefix front"
+    ],
+    "back/src/**/*.{js,ts,json}": [
+      "npm run lint --prefix back",
+      "npm run format --prefix back"
+    ]
+  },
+  "scripts": {
+    "prepare": "husky"
+  }
+}
