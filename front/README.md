@@ -8,6 +8,10 @@ This README provides a detailed walkthrough of the frontend implementation, incl
 
 ---
 
+## Main decision
+
+The base React project that this solution was built on top uses `react-scripts`/`create-react-app` which is deprecated. My initial thought was to update that using tools such as Vite. However, considering the goal of this project, I decided that changing it would not add more value than focusing on the features. Instead, I prefered to add some developers tools such as prettier and eslint in order to show more how I am used to work.
+
 ## Project Structure
 
 The frontend project is organized as follows:

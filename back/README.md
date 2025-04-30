@@ -7,7 +7,44 @@ The backend of this project is a Node.js application built with TypeScript. It p
 
 This README provides a detailed walkthrough of the backend implementation, including its structure, key components, and functionality.
 
----
+## Main decisions
+
+The biggest architectural decision on this project was fetch the .htm filing from the SEC EDGAR API and proxy it to the frontend, rather than storing it. Following are the main reasons:
+
+1. Real-time data access: financial filings are updated frequently, and storing them locally could lead to outdated data being served to users. By fetching the data directly from the SEC EDGAR API, the backend ensures that the most up-to-date filings are always delivered to the frontend.
+2. Reduced Storage Requirements: Storing .htm filings locally would require significant storage space, especially for large companies with many filings. By proxying the data, the backend avoids the need to manage and scale storage infrastructure, reducing operational costs and complexity.
+3. Compliance and Data Integrity:  Financial filings are official documents, and storing them locally could introduce risks of data corruption or tampering. Fetching the data directly from the SEC EDGAR API ensures that the filings are always accurate and compliant with regulatory standards.
+4. Simplified Backend Architecture:  Storing and managing .htm files would require additional infrastructure, such as a database or file storage system, along with mechanisms for syncing and updating the data. Proxying the data simplifies the backend architecture, as it eliminates the need for storage management and focuses on data retrieval and transformation.
+
+**However, for next steps it is important to remove the dependency on the SEC EDGAR API for every request.** To remove the dependency on the SEC EDGAR API while maintaining the ability to serve up-to-date .htm filings, I would implement a caching mechanism. This approach allows the system to fetch and store .htm filings, reducing the reliance on the SEC EDGAR API for every request while ensuring the data remains fresh. Following is a proposed architecture for future steps:
+
+**1. Cache Layer**: Introduce a caching layer to store `.htm` filings temporarily. This cache can be implemented using:
+
+- **In-memory cache** (e.g., Redis) for fast access.
+- **File-based storage** (e.g., local filesystem or cloud storage like AWS S3) for larger, persistent storage.
+
+**2. Cache Expiry**: Set an expiration time for cached filings to ensure they are refreshed periodically. For example:
+- Cache filings for **24 hours** or consider some rule related to each type of filling.
+- After expiration, fetch the latest data from the SEC EDGAR API and update the cache.
+
+**3. Cache Lookup Workflow**: Modify the `FilingService` to:
+1. Check if the requested `.htm` filing exists in the cache.
+2. If it exists, serve it from the cache.
+3. If it does not exist or is expired, fetch it from the SEC EDGAR API, store it in the cache, and then serve it.
+
+**Advantages of This Approach**:
+
+1. **Reduced Dependency on SEC EDGAR API**:
+   - The application only fetches filings from the SEC EDGAR API when they are not in the cache or have expired.
+
+2. **Improved Performance**:
+   - Serving filings from the cache is significantly faster than fetching them from the SEC EDGAR API.
+
+3. **Scalability**:
+   - The cache reduces the load on the SEC EDGAR API, making the application more scalable.
+
+4. **Resilience**:
+   - If the SEC EDGAR API is temporarily unavailable, cached filings can still be served.
 
 ## Project Structure
 
